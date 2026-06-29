@@ -1,24 +1,68 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+@custom-variant dark (&:is(.dark *));
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-caret-blink: caret-blink 1.25s ease-out infinite;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
   }
-}
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+
+  @keyframes caret-blink {
+    0%,
+    70%,
+    100% {
+      opacity: 1;
+    }
+    20%,
+    50% {
+      opacity: 0;
+    }
   }
 }
 
@@ -50,6 +94,7 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -76,13 +121,744 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    font-family:
+      Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+    background: #f4efe5;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font: inherit;
+  }
+}
+
+.manifest-page {
+    --ink: #14130f;
+    --soft-ink: #5c574f;
+    --paper: #f5f0e6;
+    --paper-strong: #fffaf0;
+    --line: rgba(20, 19, 15, 0.2);
+    --line-strong: rgba(20, 19, 15, 0.72);
+    --acid: #d6ff45;
+    --orange: #ff6b2c;
+    min-height: 100vh;
+    color: var(--ink);
+    background-image:
+      linear-gradient(rgba(245, 240, 230, 0.72), rgba(245, 240, 230, 0.88)),
+      url("/manifest-texture.png");
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .manifest-shell {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 26px 0 44px;
+  }
+
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 18px;
+  }
+
+  .brand-mark,
+  .site-nav,
+  .footer-links {
+    display: flex;
+    align-items: center;
+  }
+
+  .brand-mark {
+    gap: 10px;
+    font-size: 0.83rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .brand-sigil {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 0.78rem;
+  }
+
+  .site-nav,
+  .footer-links {
+    gap: 18px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .site-nav a,
+  .footer-links a {
+    border-bottom: 1px solid transparent;
+    color: var(--soft-ink);
+    transition:
+      border-color 180ms ease,
+      color 180ms ease;
+  }
+
+  .site-nav a:hover,
+  .footer-links a:hover {
+    border-color: currentColor;
+    color: var(--ink);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 48px;
+    align-items: end;
+    min-height: 560px;
+    padding: 72px 0 56px;
+  }
+
+  .hero-copy {
+    max-width: 770px;
+  }
+
+  .route-line {
+    width: fit-content;
+    margin: 0 0 28px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 8px 0;
+    color: var(--soft-ink);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .hero-copy h1 {
+    max-width: 820px;
+    margin: 0;
+    font-size: clamp(4rem, 12vw, 11.2rem);
+    font-weight: 900;
+    letter-spacing: 0;
+    line-height: 0.82;
+    text-wrap: balance;
+  }
+
+  .hero-deck {
+    max-width: 620px;
+    margin: 28px 0 0;
+    color: var(--soft-ink);
+    font-size: clamp(1.05rem, 2vw, 1.4rem);
+    font-weight: 520;
+    line-height: 1.42;
+  }
+
+  .manifest-card {
+    position: relative;
+    min-height: 360px;
+    border: 1px solid var(--ink);
+    background: color-mix(in srgb, var(--paper-strong) 82%, transparent);
+    padding: 20px;
+    box-shadow: 10px 10px 0 var(--ink);
+    transform: rotate(1.5deg);
+  }
+
+  .manifest-card::before,
+  .manifest-card::after {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: var(--line);
+    content: "";
+  }
+
+  .manifest-card::before {
+    top: 86px;
+  }
+
+  .manifest-card::after {
+    bottom: 108px;
+  }
+
+  .manifest-card-top,
+  .card-stats div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .manifest-card-top span,
+  .card-stats dt {
+    color: var(--soft-ink);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .manifest-card-top strong {
+    font-size: 2.6rem;
+    line-height: 1;
+  }
+
+  .stamp {
+    position: absolute;
+    top: 122px;
+    right: 18px;
+    width: 164px;
+    height: 164px;
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--orange);
+    border-radius: 50%;
+    color: var(--orange);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    line-height: 1.1;
+    text-align: center;
+    text-transform: uppercase;
+    transform: rotate(-14deg);
+  }
+
+  .barcode {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 128px;
+    display: flex;
+    align-items: stretch;
+    gap: 5px;
+    height: 76px;
+  }
+
+  .barcode span {
+    display: block;
+    background: var(--ink);
+  }
+
+  .barcode span:nth-child(1) {
+    width: 6px;
+  }
+
+  .barcode span:nth-child(2) {
+    width: 16px;
+  }
+
+  .barcode span:nth-child(3) {
+    width: 9px;
+  }
+
+  .barcode span:nth-child(4) {
+    width: 28px;
+  }
+
+  .barcode span:nth-child(5) {
+    width: 7px;
+  }
+
+  .barcode span:nth-child(6) {
+    width: 19px;
+  }
+
+  .barcode span:nth-child(7) {
+    width: 11px;
+  }
+
+  .barcode span:nth-child(8) {
+    flex: 1;
+  }
+
+  .card-stats {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    display: grid;
+    gap: 10px;
+    margin: 0;
+  }
+
+  .card-stats dd {
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 800;
+  }
+
+  .manifest-list-section {
+    border-top: 2px solid var(--ink);
+    padding: 28px 0 0;
+  }
+
+  .section-rule {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 24px;
+    margin-bottom: 20px;
+  }
+
+  .section-rule h2 {
+    margin: 0;
+    font-size: clamp(1.6rem, 4vw, 3.4rem);
+    font-weight: 900;
+    letter-spacing: 0;
+    line-height: 0.92;
+  }
+
+  .section-rule p {
+    margin: 0 0 6px;
+    color: var(--soft-ink);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.09em;
+    text-align: right;
+    text-transform: uppercase;
+  }
+
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 22px;
+  }
+
+  .filter-button {
+    min-height: 36px;
+    border: 1px solid var(--line-strong);
+    background: rgba(255, 250, 240, 0.52);
+    padding: 0 13px;
+    color: var(--soft-ink);
+    cursor: pointer;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    transition:
+      background 160ms ease,
+      color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .filter-button:hover,
+  .filter-button[data-active="true"] {
+    background: var(--acid);
+    color: var(--ink);
+    transform: translateY(-1px);
+  }
+
+  .manifest-table {
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .manifest-groups {
+    display: grid;
+    gap: 34px;
+  }
+
+  .manifest-section-group {
+    scroll-margin-top: 24px;
+  }
+
+  .manifest-section-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    border-top: 1px solid var(--line-strong);
+    margin-bottom: 8px;
+    padding-top: 16px;
+  }
+
+  .manifest-section-group:first-child .manifest-section-heading {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .manifest-section-heading h3 {
+    margin: 0;
+    font-size: clamp(1.18rem, 2.6vw, 2rem);
+    font-weight: 900;
+    letter-spacing: 0;
+    line-height: 0.95;
+  }
+
+  .manifest-section-heading p,
+  .empty-manifest {
+    margin: 0;
+    color: var(--soft-ink);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-align: right;
+    text-transform: uppercase;
+  }
+
+  .ship-row {
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .ship-row-main {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 82px minmax(0, 1fr) 98px 92px 108px;
+    align-items: center;
+    gap: 18px;
+    border: 0;
+    background: transparent;
+    padding: 18px 0;
+    color: inherit;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .ship-row-main:hover .ship-title-group strong,
+  .ship-row[data-open="true"] .ship-title-group strong {
+    text-decoration: underline;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.12em;
+  }
+
+  .ship-code,
+  .ship-meta,
+  .ship-type,
+  .ship-status {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .ship-code,
+  .ship-meta,
+  .ship-type {
+    color: var(--soft-ink);
+  }
+
+  .ship-title-group {
+    display: grid;
+    gap: 4px;
+  }
+
+  .ship-title-group strong {
+    font-size: clamp(1.35rem, 3vw, 2.35rem);
+    font-weight: 900;
+    letter-spacing: 0;
+    line-height: 0.94;
+  }
+
+  .ship-title-group span {
+    max-width: 640px;
+    color: var(--soft-ink);
+    font-size: 0.97rem;
+    line-height: 1.35;
+  }
+
+  .ship-status {
+    display: inline-grid;
+    min-height: 36px;
+    place-items: center;
+    border: 1px solid currentColor;
+    color: var(--orange);
+    font-weight: 900;
+    transform: rotate(-2deg);
+  }
+
+  .ship-status[data-status="active"] {
+    color: #657a00;
+  }
+
+  .ship-status[data-status="dispatch"] {
+    color: #275f6f;
+  }
+
+  .ship-details {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(180px, 280px) auto;
+    gap: 22px;
+    max-height: 0;
+    overflow: hidden;
+    padding: 0;
+    opacity: 0;
+    transition:
+      max-height 240ms ease,
+      opacity 160ms ease,
+      padding 240ms ease;
+  }
+
+  .ship-row[data-open="true"] .ship-details {
+    max-height: 520px;
+    padding: 0 0 22px 100px;
+    opacity: 1;
+  }
+
+  .ship-note {
+    display: grid;
+    gap: 10px;
+  }
+
+  .ship-note p {
+    margin: 0;
+    color: var(--ink);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .ship-details ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ship-details li {
+    border: 1px solid var(--line);
+    background: rgba(255, 250, 240, 0.45);
+    padding: 7px 9px;
+    color: var(--soft-ink);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .ship-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 8px;
+  }
+
+  .ship-link {
+    width: max-content;
+    align-self: start;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    padding: 10px 12px;
+    color: var(--paper);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    transition:
+      background 160ms ease,
+      color 160ms ease;
+  }
+
+  .ship-link:hover {
+    background: var(--acid);
+    color: var(--ink);
+  }
+
+  .site-footer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: center;
+    border-top: 2px solid var(--ink);
+    margin-top: 76px;
+    padding-top: 22px;
+  }
+
+  .site-footer p {
+    max-width: 520px;
+    margin: 0;
+    color: var(--soft-ink);
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+@media (max-width: 900px) {
+  .manifest-page {
+    background-attachment: scroll;
+  }
+
+  .manifest-shell {
+    width: min(100% - 28px, 760px);
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 54px 0 42px;
+  }
+
+  .manifest-card {
+    width: min(100%, 420px);
+    min-height: 300px;
+    transform: rotate(0.75deg);
+  }
+
+  .stamp {
+    width: 132px;
+    height: 132px;
+  }
+
+  .ship-row-main {
+    grid-template-columns: 64px minmax(0, 1fr) 88px;
+    gap: 12px;
+  }
+
+  .ship-type {
+    display: none;
+  }
+
+  .ship-status {
+    grid-column: 2 / -1;
+    width: max-content;
+  }
+
+  .ship-details,
+  .ship-row[data-open="true"] .ship-details {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding-left: 76px;
+  }
+
+  .site-footer {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .site-header,
+  .section-rule,
+  .manifest-section-heading {
+    align-items: start;
+    grid-template-columns: 1fr;
+  }
+
+  .site-header {
+    flex-direction: column;
+  }
+
+  .site-nav {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(3.5rem, 18vw, 6.2rem);
+  }
+
+  .manifest-card {
+    width: calc(100% - 8px);
+    min-height: 282px;
+    padding: 16px;
+    box-shadow: 7px 7px 0 var(--ink);
+    transform: none;
+  }
+
+  .manifest-card::before {
+    top: 76px;
+  }
+
+  .manifest-card::after {
+    bottom: 92px;
+  }
+
+  .manifest-card-top strong {
+    font-size: 2.15rem;
+  }
+
+  .barcode {
+    left: 16px;
+    right: 16px;
+    bottom: 104px;
+    height: 58px;
+  }
+
+  .stamp {
+    top: 154px;
+    right: 16px;
+    width: 104px;
+    height: 104px;
+    font-size: 0.58rem;
+  }
+
+  .card-stats {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .section-rule p {
+    text-align: left;
+  }
+
+  .manifest-section-heading {
+    flex-direction: column;
+  }
+
+  .manifest-section-heading p,
+  .empty-manifest {
+    text-align: left;
+  }
+
+  .ship-row-main {
+    grid-template-columns: 1fr;
+    padding: 16px 0;
+  }
+
+  .ship-status {
+    grid-column: auto;
+  }
+
+  .ship-details,
+  .ship-row[data-open="true"] .ship-details {
+    padding-left: 0;
+  }
+
+  .footer-links {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-button,
+  .ship-details,
+  .ship-link,
+  .site-nav a,
+  .footer-links a {
+    transition: none;
   }
 }

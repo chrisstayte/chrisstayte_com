@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# chrisstayte.com
 
-## Getting Started
+A static Next.js site for showcasing things Chris Stayte has shipped. The site is configured for GitHub Pages and the custom domain `chrisstayte.com`.
 
-First, run the development server:
+## Updating The Catalog
+
+Each shipped item lives in `content/ships` as a markdown file with frontmatter. Copy `content/ships/_template.md`, rename it, update the fields, and write the row note below the frontmatter.
+
+Catalog entries are validated at build time. Bad `type`, `status`, duplicate `id`, duplicate `code`, or missing fields will fail `npm run build` with the filename.
+
+## Local Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open the local URL printed by Next.js.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Production Build
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npm run lint
+npm run build
+```
 
-## Learn More
+`next.config.mjs` uses `output: "export"`, so `npm run build` writes the static site to `out/`.
 
-To learn more about Next.js, take a look at the following resources:
+## GitHub Pages
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The deploy workflow at `.github/workflows/deploy.yml` builds the static export and publishes `out/` with GitHub Pages.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Repository settings should use:
 
-## Deploy on Vercel
+- Pages source: GitHub Actions
+- Custom domain: `chrisstayte.com`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The `public/CNAME` and `public/.nojekyll` files are copied into `out/` during the build so GitHub Pages keeps the custom domain and serves Next.js assets correctly.
